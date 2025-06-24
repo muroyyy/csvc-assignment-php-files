@@ -24,12 +24,20 @@ body {
     text-align: center;
 }
 
+/* Main Content */
+.mainContent {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 /* Navigation Menu */
 .navbar {
     background-color: #0055a5;
     overflow: hidden;
     display: flex;
     justify-content: center;
+    gap: 30px;
     padding: 10px 0;
 }
 
@@ -92,6 +100,15 @@ form button {
 
 form button:hover {
     background-color: #003f7f;
+}
+
+/* Cursive Text Styling */
+.cursiveText {
+    font-style: italic;
+    font-size: 1.1em;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 800px;
 }
 
 /* Responsive Design */
