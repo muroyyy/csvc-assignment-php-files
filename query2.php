@@ -6,11 +6,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selection'])) {
 
     // Map query IDs to SQL statements
     $queries = [
-        'Q1' => "SELECT country, mobile_phones FROM countrydata_final WHERE mobile_phones IS NOT NULL",
-        'Q2' => "SELECT country, population FROM countrydata_final WHERE population IS NOT NULL",
-        'Q3' => "SELECT country, life_expectancy FROM countrydata_final WHERE life_expectancy IS NOT NULL",
-        'Q4' => "SELECT country, gdp FROM countrydata_final WHERE gdp IS NOT NULL",
-        'Q5' => "SELECT country, mortality_rate FROM countrydata_final WHERE mortality_rate IS NOT NULL"
+        'Q1' => "SELECT name AS country, mobilephones FROM countrydata_final WHERE mobilephones IS NOT NULL",
+        'Q2' => "SELECT name AS country, population FROM countrydata_final WHERE population IS NOT NULL",
+        'Q3' => "SELECT name AS country, lifeexpectancy FROM countrydata_final WHERE lifeexpectancy IS NOT NULL",
+        'Q4' => "SELECT name AS country, GDP FROM countrydata_final WHERE GDP IS NOT NULL",
+        'Q5' => "SELECT name AS country, mortalityunder5 FROM countrydata_final WHERE mortalityunder5 IS NOT NULL"
     ];
 
     if (!array_key_exists($selection, $queries)) {
