@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Query Page</title>
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="css/styles.css"> 
 </head>
 <body>
     <h1>Example Social Research Organization</h1>
