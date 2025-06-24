@@ -3,7 +3,7 @@ require_once 'config.php';
 
 // Example fallback or manual query handler
 try {
-    $stmt = $pdo->query("SELECT country, population FROM countrydata WHERE population > 1000000");
+    $stmt = $pdo->query("SELECT country, population FROM countrydata_final WHERE population > 1000000");
     $results = $stmt->fetchAll();
 } catch (PDOException $e) {
     die("Query failed: " . $e->getMessage());
