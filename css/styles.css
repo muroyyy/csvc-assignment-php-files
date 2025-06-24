@@ -7,6 +7,10 @@ body {
     color: #333;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Header Styles */
 .mainHeader {
     background-color: #003366;
