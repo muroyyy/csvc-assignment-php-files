@@ -4,6 +4,12 @@ This is a lightweight PHP-based web application designed for querying and displa
 
 ---
 
+## AWS Network Architecture Diagram Overview
+
+![CSVC-Architecture-Diagram drawio (2)](https://github.com/user-attachments/assets/470d1f45-ae8c-4b5c-9913-9fe44228b178)
+
+---
+
 ## 🧰 Tech Stack
 
 - PHP (Vanilla)
