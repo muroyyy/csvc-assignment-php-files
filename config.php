@@ -4,7 +4,7 @@ require 'vendor/autoload.php';
 use Aws\SecretsManager\SecretsManagerClient; 
 use Aws\Exception\AwsException;
 
-$secretName = "php/mysql/msri-db-credentials";
+$secretName = "msri/db-credentials";
 $region = "ap-southeast-1";
 
 $client = new SecretsManagerClient([
@@ -20,7 +20,7 @@ try {
     if (isset($result['SecretString'])) {
         $secret = json_decode($result['SecretString'], true);
 
-        $host = $secret['host'];
+        $host = $secret['endpoint'];
         $db   = $secret['dbname'];
         $user = $secret['username'];
         $pass = $secret['password'];
