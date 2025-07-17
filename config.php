@@ -1,5 +1,9 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
+require_once realpath(__DIR__ . '/vendor/autoload.php');
+
+if (!class_exists('Aws\SecretsManager\SecretsManagerClient')) {
+    die("SecretsManagerClient class is STILL not loading.");
+}
 
 use Aws\SecretsManager\SecretsManagerClient; 
 use Aws\Exception\AwsException;
