@@ -1,22 +1,24 @@
 <?php
-require_once realpath(__DIR__ . '/vendor/autoload.php');
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Aws\SecretsManager\SecretsManagerClient;
+use Aws\Exception\AwsException;
 
 if (!class_exists('Aws\SecretsManager\SecretsManagerClient')) {
-    die("SecretsManagerClient class is STILL not loading.");
+    die("❌ SecretsManagerClient class failed to load. Check autoload or composer.");
 }
-
-use Aws\SecretsManager\SecretsManagerClient; 
-use Aws\Exception\AwsException;
 
 $secretName = "msri/db-credentials";
 $region = "ap-southeast-1";
 
-$client = new SecretsManagerClient([
-    'region' => $region,
-    'version' => '2017-10-17'
-]);
-
 try {
+    // Explicitly create client with credential fallback (IAM role will be used if no access keys provided)
+    $client = new SecretsManagerClient([
+        'region' => $region,
+        'version' => 'latest',
+        'credentials' => false, // use IAM role from EC2 instance metadata
+    ]);
+
     $result = $client->getSecretValue([
         'SecretId' => $secretName,
     ]);
@@ -24,18 +26,31 @@ try {
     if (isset($result['SecretString'])) {
         $secret = json_decode($result['SecretString'], true);
 
-        $host = $secret['endpoint'];
-        $db   = $secret['dbname'];
-        $user = $secret['username'];
-        $pass = $secret['password'];
+        if (!is_array($secret)) {
+            throw new Exception("SecretString is not valid JSON.");
+        }
+
+        $host = $secret['endpoint'] ?? '';
+        $db   = $secret['dbname'] ?? '';
+        $user = $secret['username'] ?? '';
+        $pass = $secret['password'] ?? '';
+
+        // Validate required fields
+        if (!$host || !$db || !$user || !$pass) {
+            die("❌ Missing required DB credentials in secret.");
+        }
+
     } else {
-        throw new Exception("Secret string is empty");
+        throw new Exception("Secret string is empty.");
     }
 
 } catch (AwsException $e) {
-    die("Unable to retrieve secret: " . $e->getAwsErrorMessage());
+    die("❌ AWS SecretsManager error: " . $e->getAwsErrorMessage());
+} catch (Exception $e) {
+    die("❌ General error: " . $e->getMessage());
 }
 
+// Proceed to DB connection
 $charset = 'utf8mb4';
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 
@@ -46,8 +61,8 @@ $options = [
 ];
 
 try {
-     $pdo = new PDO($dsn, $user, $pass, $options);
+    $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-     die("Database connection failed: " . $e->getMessage());
+    die("❌ Database connection failed: " . $e->getMessage());
 }
 ?>
