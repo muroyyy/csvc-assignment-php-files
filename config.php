@@ -12,11 +12,9 @@ $secretName = "msri/db-credentials";
 $region = "ap-southeast-1";
 
 try {
-    // Explicitly create client with credential fallback (IAM role will be used if no access keys provided)
     $client = new SecretsManagerClient([
         'region' => $region,
-        'version' => 'latest',
-        'credentials' => false, // use IAM role from EC2 instance metadata
+        'version' => 'latest'
     ]);
 
     $result = $client->getSecretValue([
